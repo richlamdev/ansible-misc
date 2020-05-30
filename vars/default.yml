@@ -1,0 +1,10 @@
+---
+create_user: 
+delete_user:
+
+# mkpasswd --method=sha-512
+# enter the password, then paste the output hash here accordingly. 
+# note ansible will not pass plaintext password.
+
+user_password: ""
+copy_local_key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"

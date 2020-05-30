@@ -1,0 +1,21 @@
+---
+- name: Install all updates
+  hosts: all
+  gather_facts: False
+  tasks:
+
+  - name: Upgrade all yum packages
+    yum: 
+      name: "*"
+      update_cache: yes
+      state: latest
+      #exclude: git*
+ 
+  - name: List updated packages
+    #shell: rpm -qa --last | grep "$(date +%a\ %d\ %b\ %Y)" |cut -f 1 -d " "
+    shell: rpm -qa --last | awk /"$(date +%a\ %d\ %b\ %Y)"/ | awk '{print $1}'
+    register: result
+    args:
+      warn: no
+  - name: Updates packages
+    debug: msg="{{ result.stdout_lines }}"

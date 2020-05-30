@@ -1,0 +1,14 @@
+---
+- name: Running a few shell commands
+  hosts: all
+  gather_facts: False
+  tasks:
+  - name: Execute random comands as needed
+    shell: |
+      sudo ls -l /
+      echo
+      id
+    register: out
+
+  - debug:
+      var: out.stdout_lines

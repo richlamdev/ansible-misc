@@ -1,0 +1,5 @@
+ansible-playbook tasks/check-updates.yml -l all -b -K
+ansible-playbook tasks/check-updates.yml -l all -b -K -k
+
+ansible all -m ping
+ansible all -m setup --tree /tmp/facts

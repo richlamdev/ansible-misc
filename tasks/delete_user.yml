@@ -1,0 +1,22 @@
+---
+- name: Remove user
+  hosts: all
+  become: True
+
+  tasks:
+  vars_prompt:
+    - name: username
+      prompt: "Enter username to remove:"
+      private: False
+
+  - name: Delete user
+    user:
+      name: "{{ username }}"
+      state: absent
+      remove: True
+
+  - name: Remove user from passwordless sudo
+    lineinfile:
+      path: /etc/sudoers
+      regexp: "{{ username }}"
+      state: absent
