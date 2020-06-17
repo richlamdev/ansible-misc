@@ -1,42 +1,42 @@
 ---
 - hosts: all
 
-  tasks:
   vars_prompt:
-    - name: username
-      prompt: "Enter username:"
+    - name: "username"
+      prompt: "Enter username"
       private: False
 
-    - name: password
-      prompt: "Enter password:"
+    - name: "password"
+      prompt: "Enter password"
       encrypt: "sha512_crypt"
       private: True
 
-  # Sudo Group Setup
-  - name: Make sure we have a 'sudo' group
-    group:
-      name: sudo
-      state: present
-
-  - name: Allow created user to have passwordless sudo
-    lineinfile:
-      path: /etc/sudoers
-      state: present
-      line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
-
-  # User + Key Setup
-  - name: Create a new regular user with sudo privileges
-    user:
-      name: "{{ username }}"
-      password: "{{ password }}"
-      state: present
-      groups: wheel
-      append: true
-      create_home: true
-      shell: /bin/bash
-
-  - name: Set authorized key for remote user
-    authorized_key:
-      user: "{{ username }}"
-      state: present
-      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  tasks:
+    # Sudo Group Setup
+    - name: Make sure we have a 'sudo' group
+      group:
+        name: sudo
+        state: present
+  
+    - name: Allow created user to have passwordless sudo
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+    
+    # User + Key Setup
+    - name: Create a new regular user with sudo privileges
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        state: present
+        groups: sudo
+        append: true
+        create_home: true
+        shell: /bin/bash
+    
+    - name: Set authorized key for remote user
+      authorized_key:
+        user: "{{ username }}"
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
