@@ -1,0 +1,18 @@
+---
+- name: Check DNS and NTP configuration
+  hosts: all
+  gather_facts: False
+  tasks:
+  - name: Check DNS configuration
+    shell: |
+      echo
+      # DNS check for RPI.  
+      resolvconf -l
+      # DNS check for Ubuntu or other systemd
+      #resolvectl status | grep -m1 'Current DNS Server'
+
+      timedatectl timesync-status
+    register: out
+
+  - debug:
+      var: out.stdout_lines
