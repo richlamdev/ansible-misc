@@ -1,0 +1,25 @@
+---
+- name: Running a few shell commands
+  hosts: all
+  gather_facts: False
+  tasks:
+  - name: Execute random comands as needed
+    shell: |
+      sudo snap list | awk '!/Name/ && !/snapd/ {print $1}' | sort -r #| while read -r 
+      #sudo ls -l /
+      #echo
+      #id
+    register: out
+
+  - set_fact:
+      snap_list: out.stdout_lines 
+
+  - debug:
+      var: out.stdout_lines
+
+  - name: Remove Snap
+    community.general.snap:
+      name: snap-store
+      state: absent
+
+# still needs work
