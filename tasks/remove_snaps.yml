@@ -1,25 +1,25 @@
 ---
-- name: Running a few shell commands
+- name: Remove everything to do with snap
   hosts: all
   gather_facts: False
+  become: True
+  become_user: root
+  become_method: sudo
   tasks:
-  - name: Execute random comands as needed
+  - name: Get list of snaps currently running - excluding snapd
     shell: |
-      sudo snap list | awk '!/Name/ && !/snapd/ {print $1}' | sort -r #| while read -r 
-      #sudo ls -l /
-      #echo
-      #id
-    register: out
+      sudo snap list | awk '!/Name/ && !/snapd/ {print $1}' | sort -r 
+    register: snaps_found 
 
-  - set_fact:
-      snap_list: out.stdout_lines 
+  #- debug:
+      #var: snaps_found.stdout_lines
+      #msg: "{{ snaps_found.stdout }}"
+      #msg: "{{ snaps_found.stdout_lines }}"
 
-  - debug:
-      var: out.stdout_lines
-
-  - name: Remove Snap
-    community.general.snap:
-      name: snap-store
+  - name: Remove snaps
+    snap:
+      name: "{{ item }}"
       state: absent
-
-# still needs work
+    loop: "{{ snaps_found.stdout_lines }}"
+  
+# to add kill process and purge
