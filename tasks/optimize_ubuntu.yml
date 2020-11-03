@@ -37,8 +37,48 @@
       purge: yes
     when: snaps_found.stdout | length > 0
 
+
+  - name: Apt purge avahi, whoopsie, apport, openvpn package
+    apt:
+      name: 
+        - avahi-daemon
+        - avahi-utils
+        - whoopsie
+        - apport
+        - openvpn
+      state: absent
+      purge: yes
+
   - name: Apt autoclean and autoremove
     apt:
       autoremove: yes
       autoclean: yes
     when: snaps_found.stdout | length > 0
+
+  - name: Prevent evolution-addressbook-factory from launching
+    file:
+      path: /usr/libexec/evolution-addressbook-factory
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Prevent evolution-calendar-factory from launching in backgroud
+    file:
+      path: /usr/libexec/evolution-calendar-factory
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Prevent evolution-data-server/evolution-alarm-notify from launching in backgroud
+    file:
+      path: /usr/libexec/evolution-data-server/evolution-alarm-notify
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Prevent evolution-source-registry from launching in backgroud
+    file:
+      path: /usr/libexec/evolution-source-registry
+      owner: root
+      group: root
+      mode: 0644
