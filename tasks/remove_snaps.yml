@@ -6,20 +6,39 @@
   become_user: root
   become_method: sudo
   tasks:
-  - name: Get list of snaps currently running - excluding snapd
+  - name: Get list of snaps currently running - excluding snapd or core
     shell: |
-      sudo snap list | awk '!/Name/ && !/snapd/ {print $1}' | sort -r 
+      sudo snap list | awk '!/Name/ && !/snapd/ && !/core/ {print $1}' | sort -r 
     register: snaps_found 
 
   #- debug:
-      #var: snaps_found.stdout_lines
+      ##var: snaps_found.stdout_lines
       #msg: "{{ snaps_found.stdout }}"
       #msg: "{{ snaps_found.stdout_lines }}"
 
-  - name: Remove snaps
+  - name: Remove snap
     snap:
       name: "{{ item }}"
       state: absent
     loop: "{{ snaps_found.stdout_lines }}"
-  
-# to add kill process and purge
+    when: snaps_found.stdout | length > 0
+
+  - name: Stop snapd process
+    systemd:
+      name: snapd
+      scope: system
+      state: stopped
+    when: snaps_found.stdout | length > 0
+
+  - name: Apt purge snapd package
+    apt:
+      name: snapd
+      state: absent
+      purge: yes
+    when: snaps_found.stdout | length > 0
+
+  - name: Apt autoclean and autoremove
+    apt:
+      autoremove: yes
+      autoclean: yes
+    when: snaps_found.stdout | length > 0
