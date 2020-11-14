@@ -1,0 +1,30 @@
+---
+- name: Check for updates
+  hosts: all
+  gather_facts: True
+  tasks:
+    - name: Check for apt upgrades
+      become: True
+      apt:
+        upgrade: dist
+        update-cache: True
+      check_mode: True
+      register: upgraded
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+    
+    - name: show apt upgrades available
+      debug:
+        msg: "{{ upgraded.stdout_lines }}"
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Check for dnf updates
+      dnf: 
+        list: updates
+        update_cache: True
+      register: dnfoutput
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+  
+    - name: show dnf upgrades available
+      debug:
+        msg: "{{ dnfoutput.results | map(attribute='name') | list }}"
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
