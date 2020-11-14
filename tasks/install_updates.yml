@@ -1,0 +1,43 @@
+---
+
+- name: Install updates
+  hosts: all
+  tasks:
+  - name: Install APT updates
+    apt:
+      upgrade: dist
+      update_cache: yes
+      autoremove: yes
+      autoclean: yes
+    register: result
+    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+  - name: List APT installed and updated packages
+    shell: grep -E "^$(date +%Y-%m-%d).+ (install|upgrade) " /var/log/dpkg.log |cut -d " " -f 3-5
+    register: apt_result
+    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+  - name: Show APT Output
+    debug: 
+      msg: "{{ apt_result.stdout_lines }}"
+    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+
+  - name: Install DNF updates
+    dnf:
+      name: '*'
+      update_cache: yes
+      state: latest
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+  - name: List DNF updated packages
+    shell: rpm -qa --last | grep "$(date +%a\ %d\ %b\ %Y)" | cut -f 1 -d " "
+    register: dnf_result
+    args:
+      warn: no
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+  - name: Show DNF packages
+    debug: 
+      msg: "{{ dnf_result.stdout_lines }}"
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' 

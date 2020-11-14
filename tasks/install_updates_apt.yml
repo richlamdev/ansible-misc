@@ -20,10 +20,10 @@
         autoremove: yes
       register: output
 
-    - name: Check changes
-      set_fact:
-        updated: true
-      when: not output.stdout | search("0 upgraded, 0 newly installed")
+    #- name: Check changes
+      #set_fact:
+        #updated: true
+      #when: not output.stdout | search("0 upgraded, 0 newly installed")
 
     - name: Display changes
       debug:
