@@ -17,9 +17,19 @@
     register: apt_result
     when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
+  - name: Check changes
+    set_fact:
+      update: True
+    when: >
+      ( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' ) and
+      ( result.stdout | regex_search('(0 upgraded, 0 newly installed)') )
+     
+
   - name: Show APT Output
     debug: 
-      msg: "{{ apt_result.stdout_lines }}"
+      #msg: "{{ apt_result.stdout_lines }}"
+      msg:
+        - "{{ result }}"
     when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
 
@@ -39,5 +49,5 @@
 
   - name: Show DNF packages
     debug: 
-      msg: "{{ dnf_result.stdout_lines }}"
+      msg: "{{ dnf_result }}"
     when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' 

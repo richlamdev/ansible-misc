@@ -2,16 +2,16 @@
 - name: Install all updates
   hosts: all
   gather_facts: True
-  vars:
-    verbose: False
-    log_dir: "log/dist-upgrade/{{ inventory_hostname }}"
-  pre_tasks:
-    - block:
-        - setup:
-      rescue:
-        - name: "Install required python-minimal package"
-          raw: "apt-get update && apt-get install -y --force-yes python-apt python-minimal"
-        - setup:
+  #vars:
+    #verbose: False
+    #log_dir: "log/dist-upgrade/{{ inventory_hostname }}"
+  #pre_tasks:
+    #- block:
+        #- setup:
+      #rescue:
+        #- name: "Install required python-minimal package"
+          #raw: "apt-get update && apt-get install -y --force-yes python-apt python-minimal"
+        #- setup:
   tasks:
     - name: Update packages
       apt:
@@ -20,10 +20,10 @@
         autoremove: yes
       register: output
 
-    #- name: Check changes
-      #set_fact:
-        #updated: true
-      #when: not output.stdout | search("0 upgraded, 0 newly installed")
+    - name: Check changes
+      set_fact:
+        updated: true
+      when: not output.stdout | search("0 upgraded, 0 newly installed")
 
     - name: Display changes
       debug:
