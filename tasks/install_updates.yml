@@ -12,25 +12,26 @@
     register: result
     when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-  - name: List APT installed and updated packages
-    shell: grep -E "^$(date +%Y-%m-%d).+ (install|upgrade) " /var/log/dpkg.log |cut -d " " -f 3-5
-    register: apt_result
-    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  #- name: List APT installed and updated packages
+    #shell: grep -E "^$(date +%Y-%m-%d).+ (install|upgrade) " /var/log/dpkg.log |cut -d " " -f 3-5
+    #register: apt_result
+    #when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+#
+  #- name: Check changes
+    #set_fact:
+      #noupdate: True
+    #when: >
+      #( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' ) and
+      #( result.stdout | regex_search('(0 upgraded, 0 newly installed)') )
 
-  - name: Check changes
-    set_fact:
-      update: True
-    when: >
-      ( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' ) and
-      ( result.stdout | regex_search('(0 upgraded, 0 newly installed)') )
-     
 
   - name: Show APT Output
     debug: 
-      #msg: "{{ apt_result.stdout_lines }}"
-      msg:
-        - "{{ result }}"
-    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      msg: "{{ result.stdout_lines }}"
+    when: 
+      #( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and
+      #( noupdate is not defined )
+      ( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') 
 
 
   - name: Install DNF updates
