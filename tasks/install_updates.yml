@@ -1,6 +1,6 @@
 ---
 
-- name: Install updates
+- name: Install APT and DNF updates
   hosts: all
   tasks:
   - name: Install APT updates
@@ -12,25 +12,10 @@
     register: result
     when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-  #- name: List APT installed and updated packages
-    #shell: grep -E "^$(date +%Y-%m-%d).+ (install|upgrade) " /var/log/dpkg.log |cut -d " " -f 3-5
-    #register: apt_result
-    #when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-#
-  #- name: Check changes
-    #set_fact:
-      #noupdate: True
-    #when: >
-      #( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' ) and
-      #( result.stdout | regex_search('(0 upgraded, 0 newly installed)') )
-
-
   - name: Show APT Output
     debug: 
-      msg: "{{ result.stdout_lines }}"
+      msg: "{{ result.stdout }}"
     when: 
-      #( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and
-      #( noupdate is not defined )
       ( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') 
 
 
@@ -50,5 +35,5 @@
 
   - name: Show DNF packages
     debug: 
-      msg: "{{ dnf_result }}"
+      msg: "{{ dnf_result.stdout }}"
     when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' 
