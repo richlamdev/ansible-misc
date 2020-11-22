@@ -3,6 +3,7 @@
   hosts: all
   gather_facts: True
   tasks:
+
   - name: Check firewalld configuration
     shell: 'sudo firewall-cmd --list-all'
     when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'

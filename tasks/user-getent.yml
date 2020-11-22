@@ -1,0 +1,34 @@
+---
+- name: Check DNS and NTP configuration
+  hosts: all
+  gather_facts: False
+  tasks:
+  - name: Get root user info
+    getent:
+      database: passwd
+      key: root
+  - debug:
+      var: getent_passwd
+
+  - name: Get all hosts, split by tab
+    getent:
+      database: hosts
+  - debug:
+      var: getent_hosts
+
+  #- name: Get user password hash (requires sudo/root)
+    #getent:
+      #database: shadow
+      #key: www-data
+      #split: ':'
+  #- debug:
+      #var: getent_shadow
+
+
+
+  #- name: Get all groups
+    #getent:
+      #database: group
+      #split: ':'
+  #- debug:
+      #var: getent_group
