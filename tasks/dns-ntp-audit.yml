@@ -7,11 +7,12 @@
     shell: |
       echo
       # DNS check for RPI.  
-      resolvconf -l
+      #resolvconf -l
       # DNS check for Ubuntu or other systemd
-      #resolvectl status | grep -m1 'Current DNS Server'
+      resolvectl status | grep -m1 'Current DNS Server'
 
       timedatectl timesync-status
+    #when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
     register: out
 
   - debug:

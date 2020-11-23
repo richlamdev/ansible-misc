@@ -1,22 +1,32 @@
 ---
-# Sudo Group Setup
-- name: Make sure we have the adm group
-  group:
-    name: adm
-    state: present
- 
-- name: Make sure we have the sudo group
-  group:
-    name: sudo
-    state: present
- 
-# User 
-- name: Create new regular user with adm and sudo group
-  user:
-    name: "{{ username }}"
-    password: "{{ password }}"
-    state: present
-    groups: adm,sudo
-    append: True
-    create_home: True
-    shell: /bin/bash
+- name: Add normal user
+  hosts: all
+  gather_facts: True
+
+  vars_prompt:
+    - name: "username"
+      prompt: "Enter username"
+      private: False
+
+    - name: "password"
+      prompt: "Enter password"
+      encrypt: "sha512_crypt"
+      private: True
+
+  tasks:
+    # Sudo Group Setup
+    - name: Ensure sudo group present
+      group:
+        name: sudo
+        state: present
+     
+    # User 
+    - name: Create new normal user and add to sudo group
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        state: present
+        groups: sudo
+        append: True
+        create_home: True
+        shell: /bin/bash
