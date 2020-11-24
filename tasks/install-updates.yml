@@ -2,6 +2,11 @@
 
 - name: Install APT and DNF updates
   hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
+  gather_facts: True
+
   tasks:
   - name: Install APT updates
     apt:

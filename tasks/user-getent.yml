@@ -1,7 +1,11 @@
 ---
 - name: Check DNS and NTP configuration
   hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
   gather_facts: False
+
   tasks:
   - name: Get root user info
     getent:

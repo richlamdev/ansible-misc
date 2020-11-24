@@ -1,7 +1,11 @@
 ---
 - name: Check NTP configuration and display DNS setting from gather_facts
   hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
   gather_facts: True
+
   tasks:
   - name: Check NTP configuration
     shell: 

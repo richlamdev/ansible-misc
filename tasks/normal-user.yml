@@ -1,6 +1,9 @@
 ---
 - name: Add normal user
   hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
   gather_facts: True
 
   vars_prompt:

@@ -2,6 +2,9 @@
 - name: Remove user
   hosts: all
   become: True
+  become_user: root
+  become_method: sudo
+  gather_facts: False
 
   tasks:
   vars_prompt:

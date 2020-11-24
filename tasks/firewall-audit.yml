@@ -1,10 +1,12 @@
 ---
 - name: Check firewall status
   hosts: all
-  gather_facts: True
+  become: True
+  become_user: root
+  become_method: sudo
+  gather_facts: False
 
   tasks:
-
   - name: Get service facts
     service_facts:
 
@@ -34,13 +36,6 @@
       #var: 
         ##ansible_facts.services['ufw']['state']
         #ansible_facts.services['firewalld.service']['state']
-
-  #- name: Display services
-    #debug:
-      #var: 
-        #ansible_facts.services['ufw']['state']
-        #ansible_facts.services['firewalld.service']
-     
 
   #- name: Check iptables configuration - Ubuntu/Debian hosts only
     #shell: 'iptables -L'
