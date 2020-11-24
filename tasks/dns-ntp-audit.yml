@@ -1,19 +1,15 @@
 ---
-- name: Check DNS and NTP configuration
+- name: Check NTP configuration and display DNS setting from gather_facts
   hosts: all
-  gather_facts: False
+  gather_facts: True
   tasks:
-  - name: Check DNS configuration
-    shell: |
-      echo
-      # DNS check for RPI.  
-      #resolvconf -l
-      # DNS check for Ubuntu or other systemd
-      resolvectl status | grep -m1 'Current DNS Server'
-
+  - name: Check NTP configuration
+    shell: 
       timedatectl timesync-status
-    #when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
     register: out
+
+  - debug:
+      msg: "{{ ansible_dns }}"
 
   - debug:
       var: out.stdout_lines
