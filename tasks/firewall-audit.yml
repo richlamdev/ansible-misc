@@ -2,40 +2,57 @@
 - name: Check firewall status
   hosts: all
   gather_facts: True
+
   tasks:
+
+  - name: Get service facts
+    service_facts:
 
   - name: Check firewalld configuration
     shell: 'sudo firewall-cmd --list-all'
-    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+    when: ansible_facts.services['firewalld.service'] is defined
     register: f_out
 
   - name: Check ufw configuration
     shell: 'sudo ufw status'
-    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+    when: ansible_facts.services['ufw'] is defined
     register: u_out
 
   - name: Display firewalld configuration
     debug: 
       var: f_out.stdout_lines 
-    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+    when: ansible_facts.services['firewalld.service'] is defined
 
   - name: Display ufw configuration
     debug: 
       var: u_out.stdout_lines 
-    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+    when: ansible_facts.services['ufw'] is defined
 
 
-  - name: Check iptables configuration - Ubuntu/Debian hosts only
-    shell: 'iptables -L'
-    register: ip_out
-    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  #- name: Display services
+    #debug:
+      #var: 
+        ##ansible_facts.services['ufw']['state']
+        #ansible_facts.services['firewalld.service']['state']
 
-  - name: Display iptables configuration - Ubuntu/Debian hosts - inactive ufw
-    debug:
-      var: ip_out.stdout_lines
-    when: >
-     ( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and
-     ( u_out.stdout_lines is search("inactive") )
+  #- name: Display services
+    #debug:
+      #var: 
+        #ansible_facts.services['ufw']['state']
+        #ansible_facts.services['firewalld.service']
+     
+
+  #- name: Check iptables configuration - Ubuntu/Debian hosts only
+    #shell: 'iptables -L'
+    #register: ip_out
+    #when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+#
+  #- name: Display iptables configuration - Ubuntu/Debian hosts - inactive ufw
+    #debug:
+      #var: ip_out.stdout_lines
+    #when: >
+     #( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and
+     #( u_out.stdout_lines is search("inactive") )
 
 
 ## if firewalld isn't running on Centos/Redhat host, investigate! ##
