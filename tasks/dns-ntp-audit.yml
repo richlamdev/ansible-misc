@@ -12,8 +12,10 @@
       timedatectl timesync-status
     register: out
 
-  - debug:
+  - name: Current DNS server(s)
+    debug:
       msg: "{{ ansible_dns }}"
 
-  - debug:
+  - name: Current NTP server(s)
+    debug:
       var: out.stdout_lines

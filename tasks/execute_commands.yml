@@ -13,5 +13,6 @@
       id
     register: out
 
-  - debug:
+  - name: output of commands
+    debug:
       var: out.stdout_lines

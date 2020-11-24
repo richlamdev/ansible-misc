@@ -7,5 +7,10 @@
   gather_facts: True
 
   tasks:
-  - debug:
+  - name: selinux status
+    debug:
       msg: "{{ ansible_selinux }}"
+
+  - name: apparmor status
+    debug:
+      msg: "{{ ansible_apparmor }}"
