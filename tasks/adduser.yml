@@ -1,0 +1,26 @@
+---
+- name: Create normal user
+  hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
+  gather_facts: True
+
+  vars_prompt:
+    - name: "username"
+      prompt: "Enter username"
+      private: False
+
+    - name: "password"
+      prompt: "Enter password"
+      encrypt: "sha512_crypt"
+      private: True
+
+  tasks:
+    - name: Create new user
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        state: present
+        create_home: True
+        shell: /bin/bash

@@ -1,5 +1,5 @@
 ---
-- name: Add normal user
+- name: Create user and add to sudo group
   hosts: all
   become: True
   become_user: root
@@ -17,14 +17,12 @@
       private: True
 
   tasks:
-    # Sudo Group Setup
     - name: Ensure sudo group present
       group:
         name: sudo
         state: present
      
-    # User 
-    - name: Create new normal user and add to sudo group
+    - name: Create new user; added to sudo group
       user:
         name: "{{ username }}"
         password: "{{ password }}"
