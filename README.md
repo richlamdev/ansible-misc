@@ -6,17 +6,18 @@ Set default display of output for better readability\
 Set ansible.log in root directory of playbook\
 Set default interpreter as python3\
 Set some optimizations\
-Set host key checking to ignore\
+Set host key checking to ignore
 
 
 ## Edit inventory file as required.  Eg:
 
-inventory
+inventory\
+
 [py3hosts]\
 localhost\
 192.168.2.3\
 my-vmware-cloud\
-my-file-server\
+my-file-server
 
 
 ## Playbook Usage:
@@ -25,11 +26,11 @@ my-file-server\
 
 where:
 
--b, --become             run operations with become (does not imply password prompting)
--K, --ask-become-pass    ask for privilege escalation password
--k, --ask-pass           ask for connection password
+-b, --become             run operations with become (does not imply password prompting)\
+-K, --ask-become-pass    ask for privilege escalation password\
+-k, --ask-pass           ask for connection password\
 
--k, --ask-pass is not required if using SSH keys
+-k, --ask-pass is not required if using SSH keys\
 
 
 ******************************************************************************
@@ -37,20 +38,20 @@ where:
 
 ## Misc Ad-hoc Command examples
 
-### ping all the assets in inventory file
+### Ping all the assets in inventory file
 ````ansible all -m ping  -b -k -K````
 
-### gather facts (information) from assets in inventory file
+### Gather facts (information) from assets in inventory file
 ````ansible all -m setup  -b -k -K````
 
-### random command execution; alternative to writing a dedicated playbook
+### Random command execution; alternative to writing a dedicated playbook
 ````ansible all -a "cat /etc/passwd"  -b -k -K````
 
 
 where:
 
--b, --become             run operations with become (does not imply password prompting)
--K, --ask-become-pass    ask for privilege escalation password
--k, --ask-pass           ask for connection password
+-b, --become             run operations with become (does not imply password prompting)\
+-K, --ask-become-pass    ask for privilege escalation password\
+-k, --ask-pass           ask for connection password\
 
--k, --ask-pass is not required if using SSH keys
+-k, --ask-pass is not required if using SSH keys\
