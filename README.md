@@ -1,22 +1,22 @@
 # Miscellaneous Ansible playbooks
 
 ## Summary of current configuration of ansible configuration (ansible.cfg). Edit as required.
-Set inventory file as "inventory" (ini format)
-Set default display of output for better readability
-Set ansible.log in root directory of playbook
-Set default interpreter as python3
-Set some optimizations
-Set host key checking to ignore
+Set inventory file as "inventory" (ini format)\
+Set default display of output for better readability\
+Set ansible.log in root directory of playbook\
+Set default interpreter as python3\
+Set some optimizations\
+Set host key checking to ignore\
 
 
 ## Edit inventory file as required.  Eg:
 
 inventory
-[py3hosts]
-localhost
-192.168.2.3
-my-vmware-cloud
-my-file-server
+[py3hosts]\
+localhost\
+192.168.2.3\
+my-vmware-cloud\
+my-file-server\
 
 
 ## Playbook Usage:
