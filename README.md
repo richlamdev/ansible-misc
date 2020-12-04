@@ -11,7 +11,7 @@ Set host key checking to ignore
 
 ## Edit inventory file as required.  Eg:
 
-inventory\
+inventory
 
 [py3hosts]\
 localhost\
