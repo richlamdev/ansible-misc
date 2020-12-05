@@ -46,9 +46,9 @@ my-file-server
 
 where:
 
--b, --become             run operations with become (does not imply password prompting)\
--K, --ask-become-pass    ask for privilege escalation password\
--k, --ask-pass           ask for connection password
+-b, --become                                  run operations with become (does not imply password prompting)\
+-K, --ask-become-pass                         ask for privilege escalation password\
+-k, --ask-pass                                ask for connection password
 
 -k, --ask-pass is not required if using SSH keys
 
@@ -70,6 +70,8 @@ where:
 
 where:
 
--b, --become             run operations with become (does not imply password prompting)\
--K, --ask-become-pass    ask for privilege escalation password\
--k, --ask-pass           ask for connection password
+-m MODULE_NAME, --module-name MODULE_NAME     module name to execute (default=command)\
+-a MODULE_ARGS, --args MODULE_ARGS            module arguments\
+-b, --become                                  run operations with become (does not imply password prompting)\
+-K, --ask-become-pass                         ask for privilege escalation password\
+-k, --ask-pass                                ask for connection password
