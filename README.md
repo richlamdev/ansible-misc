@@ -1,5 +1,25 @@
 # Miscellaneous Ansible playbooks
 
+This is a small collection of playbooks for basic administration and audit of Ubuntu and Redhat based Linux distributions.
+
+Some of the tasks include:
+
+Create/remove users\
+Create/remove groups\
+Check patching status\
+Install patches\
+Check firewall/DNS/NTP settings
+
+## Requirements
+
+1) Linux or Mac Operating System.
+
+2) ansible
+````pip3 install ansible````
+
+3) jinja2 template
+````pip3 installl jinja2````
+
 ## Summary of current configuration of ansible configuration (ansible.cfg). Edit as required.
 Set inventory file as "inventory" (ini format)\
 Set default display of output for better readability\
@@ -11,7 +31,7 @@ Set host key checking to ignore
 
 ## Edit inventory file as required.  Eg:
 
-inventory
+inventory 
 
 [py3hosts]\
 localhost\
@@ -28,9 +48,9 @@ where:
 
 -b, --become             run operations with become (does not imply password prompting)\
 -K, --ask-become-pass    ask for privilege escalation password\
--k, --ask-pass           ask for connection password\
+-k, --ask-pass           ask for connection password
 
--k, --ask-pass is not required if using SSH keys\
+-k, --ask-pass is not required if using SSH keys
 
 
 ******************************************************************************
@@ -52,6 +72,4 @@ where:
 
 -b, --become             run operations with become (does not imply password prompting)\
 -K, --ask-become-pass    ask for privilege escalation password\
--k, --ask-pass           ask for connection password\
-
--k, --ask-pass is not required if using SSH keys\
+-k, --ask-pass           ask for connection password

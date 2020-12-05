@@ -17,17 +17,38 @@
       private: True
 
   tasks:
-    - name: Ensure sudo group present
+    - name: Ensure sudo group present for Debian based distribution
       group:
         name: sudo
         state: present
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+    
+    - name: Ensure wheel group present for Redhat based distribution
+      group:
+        name: wheel
+        state: present
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
      
-    - name: Create new user; added to sudo group
+    - name: Created "{{ username }}" user and added to sudo group
       user:
         name: "{{ username }}"
         password: "{{ password }}"
+        update_password: on_create
         state: present
         groups: sudo
         append: True
         create_home: True
         shell: /bin/bash
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Created "{{ username }}" user and added to wheel group
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        update_password: on_create
+        state: present
+        groups: wheel
+        append: True
+        create_home: True
+        shell: /bin/bash
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'

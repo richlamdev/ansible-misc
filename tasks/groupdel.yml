@@ -1,18 +1,18 @@
 ---
-- name: Remove user(s)
+- name: Remove group(s)
   hosts: all
   become: True
   become_user: root
   become_method: sudo
   gather_facts: False
   vars: 
-    del_users:
-      - fakeuser
+    del_groups:
+      - ssh-users
+      - some-group
 
   tasks:
-  - name: Delete user(s)
-    user:
+  - name: Remove group(s)
+    group:
       name: "{{ item }}"
       state: absent
-      remove: True
-    with_items: "{{ del_users }}"
+    with_items: "{{ del_groups }}"
