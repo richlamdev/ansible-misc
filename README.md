@@ -22,7 +22,7 @@ Check firewall/DNS/NTP settings
 
 4) sshpass:\
 ````sudo apt install sshpass````\
-** *Limit use of sshpass for early setup only, due to potential security issues.  Push ssh keys to targets as early as possible.* **
+** *Limit use of sshpass for early setup only, due to potential security issues.  Deploy ssh keys to target hosts as early as possible.* **
 
 ## Summary of current configuration of ansible configuration (ansible.cfg). Edit as required.
 Set inventory file as "inventory" (ini format)\
