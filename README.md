@@ -14,11 +14,15 @@ Check firewall/DNS/NTP settings
 
 1) Linux or Mac Operating System.
 
-2) ansible
+2) ansible:\
 ````pip3 install ansible````
 
-3) jinja2 template
+3) jinja2 template:\
 ````pip3 installl jinja2````
+
+4) sshpass:\
+````sudo apt install sshpass````\
+**Limit use of sshpass for early setup only, due to potential security issues.  Push ssh keys to targets as early as possible**
 
 ## Summary of current configuration of ansible configuration (ansible.cfg). Edit as required.
 Set inventory file as "inventory" (ini format)\
@@ -75,3 +79,5 @@ where:
 -b, --become                                  run operations with become (does not imply password prompting)\
 -K, --ask-become-pass                         ask for privilege escalation password\
 -k, --ask-pass                                ask for connection password
+
+-k, --ask-pass is not required if using SSH keys
