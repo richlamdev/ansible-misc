@@ -57,6 +57,32 @@ where:
 -k, --ask-pass is not required if using SSH keys
 
 
+## initial-ansible-user.yml
+
+This playbook is to create a sudo user on newly provisioned VM with SSH key deployed.
+This requires the play executed from the context of the new user on from the ansible "push" server.\
+
+Example: You want a the user "ansible-user" to be a sudo user created on all the newly provisioned VM's.
+
+1) Create ansible-user on the ansible server:
+````sudo adduser ansible-user````
+
+2) Switch or log on as the ansible-user:
+````su - ansible-user````
+
+3) Generate an SSH keypair
+````ssh-keygen -b 4096 -t rsa````
+
+4) From the roote of the git repo, execute the play to create the ansible-user on the new VM's:
+````ansible-playbook tasks/initial-ansible-user.yml -bkK````
+
+5) Test the user was created with an SSH key:
+````ssh ansible-user@<new-vm-ip>````
+
+
+
+
+
 ******************************************************************************
 
 

@@ -16,7 +16,6 @@
       private: True
 
   tasks:
-    # Sudo Group Setup
     - name: Make sure we have a 'sudo' group
       group:
         name: sudo
@@ -28,7 +27,6 @@
         state: present
         line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
     
-    # User + Key Setup
     - name: Create a new regular user with sudo privileges
       user:
         name: "{{ username }}"
