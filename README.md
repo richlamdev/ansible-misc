@@ -80,8 +80,8 @@ Create the user "ansible-user" as a sudo user all the newly provisioned VM's.  A
 5) From the roote of the git repo, execute the play to create the ansible-user on the new VM's:\
 ````ansible-playbook tasks/initial-ansible-user.yml -bkK -u <root user or sudo user>````
 
-6) Test the user was created with an SSH key:\
-````ssh ansible-user@<new-vm-ip>````
+6) Test the user was created with an SSH key on the new VM(s):\
+````ssh ansible-user@<IP-of-new-vm>````
 
 
 ******************************************************************************
