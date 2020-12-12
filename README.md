@@ -62,9 +62,11 @@ where:
 This playbook is to create a sudo user on newly provisioned VM with SSH key deployed.
 This requires the play executed from the context of the new user on from the ansible "push" server.\
 
-Example: You want a the user "ansible-user" to be a sudo user created on all the newly provisioned VM's.
+Example: 
 
-1) Create ansible-user on the ansible server:\
+Create the user "ansible-user" as a sudo user all the newly provisioned VM's.  All commands to be executed on the host or local machine.
+
+1) Create ansible-user:\
 ````sudo adduser ansible-user````
 
 2) Switch or log on as the ansible-user:\
@@ -73,10 +75,12 @@ Example: You want a the user "ansible-user" to be a sudo user created on all the
 3) Generate an SSH keypair\
 ````ssh-keygen -b 4096 -t rsa````
 
-4) From the roote of the git repo, execute the play to create the ansible-user on the new VM's:\
-````ansible-playbook tasks/initial-ansible-user.yml -bkK````
+4) Edit inventory file to include the VM's to have this user deployed to.
 
-5) Test the user was created with an SSH key:\
+5) From the roote of the git repo, execute the play to create the ansible-user on the new VM's:\
+````ansible-playbook tasks/initial-ansible-user.yml -bkK -u <root user or sudo user>
+
+6) Test the user was created with an SSH key:\
 ````ssh ansible-user@<new-vm-ip>````
 
 
