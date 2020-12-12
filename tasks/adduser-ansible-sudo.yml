@@ -1,0 +1,66 @@
+---
+- hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
+  gather_facts: True
+
+  vars_prompt:
+    - name: "username"
+      prompt: "Enter username"
+      private: False
+
+    - name: "password"
+      prompt: "Enter password"
+      encrypt: "sha512_crypt"
+      private: True
+
+  tasks:
+    - name: Ensure sudo group present for Debian based distribution
+      group:
+        name: sudo
+        state: present
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+    
+    - name: Ensure wheel group present for Redhat based distribution
+      group:
+        name: wheel
+        state: present
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Enabled "{{ username }}" with passwordless sudo
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+    
+    - name: Created "{{ username }}" user and added to sudo group
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        update_password: on_create
+        state: present
+        groups: sudo
+        append: True
+        create_home: True
+        shell: /bin/bash
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Created "{{ username }}" user and added to wheel group
+      user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        update_password: on_create
+        state: present
+        groups: wheel
+        append: True
+        create_home: True
+        shell: /bin/bash
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+
+    - name: Upload SSH authorized key for "{{ username }}" to target server(s)
+      authorized_key:
+        user: "{{ username }}"
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"

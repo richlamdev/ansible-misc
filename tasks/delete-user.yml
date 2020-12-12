@@ -7,7 +7,7 @@
   gather_facts: False
   vars: 
     del_users:
-      - fakeuser
+      - dummy
 
   tasks:
   - name: Delete user(s)
@@ -15,4 +15,12 @@
       name: "{{ item }}"
       state: absent
       remove: True
+    with_items: "{{ del_users }}"
+
+  - name: Removing user(s) from sudoers
+    lineinfile:
+      path: /etc/sudoers
+      state: absent
+      regexp: " {{ item }}"
+      backup: yes
     with_items: "{{ del_users }}"
