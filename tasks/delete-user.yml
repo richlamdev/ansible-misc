@@ -17,10 +17,10 @@
       remove: True
     with_items: "{{ del_users }}"
 
-  - name: Removing user(s) from sudoers
+  - name: Removing user(s) from /etc/sudoers, if present
     lineinfile:
       path: /etc/sudoers
+      regexp: "^{{ item }}"
       state: absent
-      regexp: " {{ item }}"
       backup: yes
     with_items: "{{ del_users }}"
