@@ -3,4 +3,10 @@
 192.168.60.6
 
 [py3hosts:vars]
+ansible_user=vagrant
+#ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+#ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+ansible_become=True
+ansible_become_method=sudo
+ansible_become_user=root
 ansible_python_interpreter=/usr/bin/python3
