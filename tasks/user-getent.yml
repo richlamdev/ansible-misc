@@ -1,38 +1,22 @@
 ---
-- name: Check DNS and NTP configuration
+- name: Obtain list of user accounts
   hosts: all
   become: True
   become_user: root
   become_method: sudo
-  gather_facts: False
+  gather_facts: True
 
   tasks:
-  - name: Get root user info
+  - name: Read accounts from database
     getent:
       database: passwd
-      key: root
+
+  - set_fact:
+      #users: "{{ getent_passwd | dict2items | json_query('[? contains(value, `/bin/bash`)].key') }}"
+      users: "{{ getent_passwd | dict2items | json_query('[? contains(value, `/bin/bash`)].key') }}"
+      #users2: "{{ getent_passwd | dict2items | json_query('[? !(contains(value, `/usr/sbin/nologin`))].key') }}"
+
   - debug:
-      var: getent_passwd
-
-  - name: Get all hosts, split by tab
-    getent:
-      database: hosts
-  - debug:
-      var: getent_hosts
-
-  #- name: Get user password hash (requires sudo/root)
-    #getent:
-      #database: shadow
-      #key: www-data
-      #split: ':'
-  #- debug:
-      #var: getent_shadow
-
-
-
-  #- name: Get all groups
-    #getent:
-      #database: group
-      #split: ':'
-  #- debug:
-      #var: getent_group
+      msg: 
+        - list of users {{ users }}
+        #- list of users {{ users2 }}
