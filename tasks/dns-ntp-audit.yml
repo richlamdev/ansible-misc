@@ -9,7 +9,7 @@
   tasks:
   - name: Check NTP configuration
     shell: 
-      timedatectl timesync-status
+      timedatectl status
     register: out
 
   - name: Current DNS server(s)

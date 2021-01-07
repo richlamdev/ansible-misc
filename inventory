@@ -1,8 +1,17 @@
-[py3hosts]
+[app]
 192.168.60.4
+192.168.60.5
+
+[db]
 192.168.60.6
 
-[py3hosts:vars]
+# Group 'multi' with all servers
+[multi:children]
+app
+db
+
+
+[multi:vars]
 ansible_user=vagrant
 #ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
 #ansible_ssh_common_args='-o StrictHostKeyChecking=no'
