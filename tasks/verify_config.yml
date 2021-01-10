@@ -1,0 +1,24 @@
+---
+- name: compare
+  hosts: all
+  gather_facts: no
+ 
+  vars:
+ 
+    std_conf_crontab: 'c39252b11aad842fcb75e05c6a27eef8'
+    std_conf_lvm: '2d90187abd40dbcb6fc6de41640fd022'
+    std_conf_resolv: 'db323688118c844a76ebd6c70508b434'
+
+  tasks:
+
+  - name: compare config files
+    stat:
+      path: '{{ item.file }}'
+      checksum_algorithm: md5
+    register: result
+    changed_when: item.md5sum != result.stat.checksum
+    failed_when: False
+    loop:
+      - { file: /etc/crontab, md5sum: '{{ std_conf_crontab }}' }
+      - { file: /etc/lvm/lvm.conf, md5sum: '{{ std_conf_lvm }}' }
+      - { file: /etc/resolv.conf, md5sum: '{{ std_conf_resolv }}'}   

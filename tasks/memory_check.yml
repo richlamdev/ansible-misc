@@ -1,0 +1,16 @@
+- name: assert
+  hosts: all
+
+  tasks:
+
+  - name: check if memory is between 800 and 1100MB
+    assert:
+      that:
+        - ansible_memtotal_mb | int >= 800
+        - ansible_memtotal_mb | int <= 1100
+      fail_msg: "Memory is {{ ansible_memtotal_mb }}MB not 1024MB"
+    register: result
+    changed_when:
+      - result.evaluated_to is defined
+      - result.evaluated_to == False
+    failed_when: False

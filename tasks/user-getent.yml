@@ -13,10 +13,10 @@
 
   - set_fact:
       #users: "{{ getent_passwd | dict2items | json_query('[? contains(value, `/bin/bash`)].key') }}"
-      users: "{{ getent_passwd | dict2items | json_query('[? contains(value, `/bin/bash`)].key') }}"
-      #users2: "{{ getent_passwd | dict2items | json_query('[? !(contains(value, `/usr/sbin/nologin`))].key') }}"
+      users: "{{ getent_passwd | dict2items | json_query('[? contains(value, `/sbin/nologin`)].key') }}"
+      users2: "{{ getent_passwd | dict2items | json_query('[? !(contains(value, `/usr/sbin/nologin`))].key') }}"
 
   - debug:
       msg: 
         - list of users {{ users }}
-        #- list of users {{ users2 }}
+        - list of users2 {{ users2 }}
