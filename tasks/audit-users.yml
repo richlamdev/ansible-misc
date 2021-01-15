@@ -1,0 +1,17 @@
+---
+- name: Audit users via /etc/passwd file
+  hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
+  gather_facts: False
+  tasks:
+  - name: cat /etc/passwd
+    shell: |
+      cat /etc/passwd
+      echo
+    register: out
+
+  - name: output of commands
+    debug:
+      var: out.stdout_lines
