@@ -1,5 +1,5 @@
 [local]
-#localhost ansible_connection=local
+localhost ansible_connection=local
 
 [app]
 192.168.60.4
