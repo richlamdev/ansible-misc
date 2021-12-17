@@ -1,0 +1,59 @@
+---
+- name: Install APT updates
+  hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
+  gather_facts: True
+
+  tasks:
+  - name: Install APT updates
+    apt:
+      upgrade: dist
+      update_cache: yes
+      autoremove: yes
+      autoclean: yes
+    register: result
+    when: 
+      ( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian')
+
+  - name: Show APT Output
+    debug: 
+      msg: "{{ result.stdout }}"
+    when: 
+      ( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') 
+
+  - name: Check if reboot required
+    stat:
+      path: /var/run/reboot-required
+    register: reboot_required_file
+    when: 
+      ( ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') 
+  
+  - name: Reboot Debian/Ubuntu server if necessary
+    reboot:
+    async: 1
+    poll: 0
+    when: reboot_required_file.stat.exists == true
+
+  #- name: Pausing to allow server to shutdown and terminate our SSH connection
+    #pause: 
+      #seconds: 30
+    #when: reboot_required_file.stat.exists == true
+
+  - name: Wait for reboot to complete
+    wait_for_connection:
+      connect_timeout: 20
+      sleep: 5
+      delay: 5
+      timeout: 300
+    when: reboot_required_file.stat.exists == true
+
+  - name: Check if server is alive
+    shell: uptime
+    register: uptime_results
+
+  - name: Show uptime results
+    debug:
+      msg: 
+       - "{{ uptime_results.stdout }}"
