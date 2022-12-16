@@ -86,7 +86,6 @@ Create the user "ansible-user" as a sudo user to all the newly provisioned VM's.
 
 ******************************************************************************
 
-
 ## Misc Ad-hoc Command examples
 
 ### Ping all the assets in inventory file
