@@ -86,9 +86,9 @@ Create the user "ansible-user" as a sudo user to all the newly provisioned VM's.
 
 ## Roles
 
-### Brief note, if the ansible-role-nginx-tls is used, be aware that
-deployment of TLS private key certificate should _not_ be done this way.
-This is just provided as a quick and simple example of how it could be done.
+Brief note, if the ansible-role-nginx-tls is used, be aware that
+deployment of TLS private key certificate should _not_ be provisioned this way.
+This is implemented here as a quick and simple example of how it could be done.
 Primarily for the purposes of being to able to view/test TLS certificates via
 gui, instead via openssl.
 
