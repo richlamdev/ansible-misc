@@ -9,8 +9,8 @@
   #- include_tasks: tasks/main.yml
 
   roles:
-    - ansible-role-nginx-tls
-    #- ansible-role-nginx
+    #- ansible-role-nginx-tls
+    - ansible-role-nginx
     #- ansible-node-exporter
     #- ansible-grafana
     #- ansible-prometheus
