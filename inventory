@@ -1,22 +1,22 @@
 [local]
-localhost ansible_connection=local
+#localhost ansible_connection=local
 
 [app]
-192.168.60.4
-192.168.60.5
+#192.168.60.4
+#192.168.60.5
 
-[db]
+[webserver]
 192.168.60.6
 
 [grph]
-192.168.60.7
+#192.168.60.7
 
 
 # Group 'multi' with all servers
 [multi:children]
 local
 app
-db
+webserver
 grph
 
 
