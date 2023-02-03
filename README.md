@@ -35,7 +35,7 @@ Set host key checking to ignore
 
 ## Edit inventory file as required.  Eg:
 
-inventory 
+inventory
 
 [py3hosts]\
 localhost\
@@ -50,9 +50,9 @@ my-file-server
 
 where:
 
--b, --become                                  run operations with become (does not imply password prompting)\
--K, --ask-become-pass                         ask for privilege escalation password\
--k, --ask-pass                                ask for connection password
+-b, --become                   run operations with become (does not imply password prompting)\
+-K, --ask-become-pass          ask for privilege escalation password\
+-k, --ask-pass                 ask for connection password
 
 -k, --ask-pass is not required if using SSH keys
 
@@ -62,7 +62,7 @@ where:
 This playbook creates a sudo user on newly provisioned VM(s) with SSH key deployed.
 Requires the play executed from the context of the new user on from the ansible "push" server (host machine).\
 
-Example: 
+Example:
 
 Create the user "ansible-user" as a sudo user to all the newly provisioned VM's.  All commands to be executed on the host or local machine.
 
@@ -82,6 +82,19 @@ Create the user "ansible-user" as a sudo user to all the newly provisioned VM's.
 
 6) Test the user was created with an SSH key on the new VM(s):\
 ````ssh ansible-user@<IP-of-new-vm>````
+
+
+## Roles
+
+### Brief note, if the ansible-role-nginx-tls is used, be aware that
+deployment of TLS private key certificate should _not_ be done this way.
+This is just provided as a quick and simple example of how it could be done.
+Primarily for the purposes of being to able to view/test TLS certificates via
+gui, instead via openssl.
+
+For test/development/temporary TLS certificate creation via HashiCorp Vault,
+see this repo:
+[HashiCorp Vault TLS Certificates with raft backend](https://github.com/richlamdev/vault-pki-raft)
 
 
 ******************************************************************************
