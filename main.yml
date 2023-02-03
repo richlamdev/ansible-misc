@@ -7,8 +7,10 @@
   gather_facts: True
   #tasks:
   #- include_tasks: tasks/main.yml
-  
+
   roles:
-    - ansible-node-exporter
+    - ansible-role-nginx-tls
+    #- ansible-role-nginx
+    #- ansible-node-exporter
     #- ansible-grafana
     #- ansible-prometheus
