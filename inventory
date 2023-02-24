@@ -1,12 +1,12 @@
 [local]
-#localhost ansible_connection=local
+localhost
 
 [app]
 #192.168.60.4
 #192.168.60.5
 
 [webserver]
-192.168.60.6
+#192.168.60.6
 
 [grph]
 #192.168.60.7
@@ -21,7 +21,7 @@ grph
 
 
 [multi:vars]
-ansible_user=vagrant
+#ansible_user=vagrant
 #ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
 #ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 ansible_become=True

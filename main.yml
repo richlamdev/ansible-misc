@@ -10,7 +10,8 @@
 
   roles:
     #- ansible-role-nginx-tls
-    - ansible-role-nginx
+    #- ansible-role-nginx
+    - ansible-role-kubernetes
     #- ansible-node-exporter
     #- ansible-grafana
     #- ansible-prometheus
